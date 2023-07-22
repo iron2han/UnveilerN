@@ -238,7 +238,7 @@ namespace UnveilerN
                 {
                     Invoke(new Action(() =>
                     {
-                        tbOutput.AppendText(output);
+                        tbOutput.AppendText(ConsoleOutput.RemoveAnsiColor(output));
                         tbOutput.AppendText("\r\n");
                         tbOutput.SelectionStart = tbOutput.TextLength;
                         tbOutput.ScrollToCaret();

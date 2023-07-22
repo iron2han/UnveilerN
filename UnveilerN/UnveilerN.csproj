@@ -51,6 +51,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\UnveilerService.cs" />
+    <Compile Include="Utils\ConsoleOutput.cs" />
     <Compile Include="Utils\ControlDisable.cs" />
     <Compile Include="Utils\Unveiler.cs" />
     <Compile Include="Utils\UnveilerDecompileCommandStringBuilder.cs" />
