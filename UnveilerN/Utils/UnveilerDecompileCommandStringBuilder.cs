@@ -162,6 +162,11 @@ namespace UnveilerN.Utils
                 yield return "--format";
             }
 
+            if (ScanSensitive)
+            {
+                yield return "--scan-sensitive";
+            }
+
             if (NoClearDecompile)
             {
                 yield return "--no-clear-decompile";
