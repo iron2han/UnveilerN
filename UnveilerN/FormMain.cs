@@ -132,19 +132,7 @@ namespace UnveilerN
 
             using (new ControlDisable(btnDecompile))
             {
-                tbOutput.ResetText();
-
-                var builder = new UnveilerDecompileCommandStringBuilder(tbUnveilerPath.Text)
-                {
-                    AppId = tbAppId.Text,
-                    LogLevel = (UnveilerLogLevel?)cbLogLevel.SelectedValue,
-                    DirectoryDepth = DirectoryDepth,
-                    FormatCode = cbFormatCode.Checked,
-                    NoClearDecompile = cbNoClearDecompile.Checked,
-                    OverwriteDirectory = cbOverwriteDirectory.Checked,
-                    ScanSensitive = cbScanSensitive.Checked,
-                    OutputDirectory = tbOutputDirectory.Text,
-                };
+                var builder = CreateCommandStringBuilder();
 
                 if (rbDirectory.Checked)
                 {
@@ -166,8 +154,83 @@ namespace UnveilerN
                     builder.AddFiles(openFileDialogSelectFiles.FileNames);
                 }
 
-                tabControl1.SelectedTab = tabPage3;
+                await UnveilerRunner(builder);
+            }
+        }
+
+        private void TpDecompile_DragEnter(object sender, DragEventArgs e)
+        {
+            if (!btnDecompile.Enabled)
+            {
+                return;
+            }
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.All;
+            }
+        }
+
+        private async void TpDecompile_DragDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                return;
+            }
+
+            if (!CheckExecuteCondition(out var errMsg))
+            {
+                MsgError(errMsg);
+                return;
+            }
+
+            var paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            if (paths.Length == 0)
+            {
+                return;
+            }
+
+            bool isDir = File.GetAttributes(paths[0]).HasFlag(FileAttributes.Directory);
+
+            var builder = CreateCommandStringBuilder();
+
+            if (isDir)
+            {
+                builder.SetDirectory(paths[0]);
+            }
+            else
+            {
+                string[] files = paths.Where(a => !File.GetAttributes(a).HasFlag(FileAttributes.Directory)).ToArray();
+                builder.AddFiles(files);
+            }
+
+            await UnveilerRunner(builder);
+        }
+
+        private UnveilerDecompileCommandStringBuilder CreateCommandStringBuilder()
+        {
+            return new UnveilerDecompileCommandStringBuilder(tbUnveilerPath.Text)
+            {
+                AppId = tbAppId.Text,
+                LogLevel = (UnveilerLogLevel?)cbLogLevel.SelectedValue,
+                DirectoryDepth = DirectoryDepth,
+                FormatCode = cbFormatCode.Checked,
+                NoClearDecompile = cbNoClearDecompile.Checked,
+                OverwriteDirectory = cbOverwriteDirectory.Checked,
+                ScanSensitive = cbScanSensitive.Checked,
+                OutputDirectory = tbOutputDirectory.Text,
+            };
+        }
+
+        private async Task UnveilerRunner(UnveilerDecompileCommandStringBuilder builder)
+        {
+            using (new ControlDisable(btnDecompile))
+            {
                 Tracker.PersistAll();
+                tbOutput.ResetText();
+
+                tabControl1.SelectedTab = tabPage3;
 
                 var service = new UnveilerService(builder);
 
@@ -182,7 +245,7 @@ namespace UnveilerN
                     }));
                 });
 
-                tabControl1.SelectedTab = tabPage2;
+                tabControl1.SelectedTab = tpDecompile;
 
                 if (!CheckOutput(out string errorMsg))
                 {
@@ -196,7 +259,8 @@ namespace UnveilerN
                     return;
                 }
 
-                Process.Start("explorer.exe", string.Concat('"', service.GetOutputDirectory(), '"'));
+                string outputDirectory = service.GetOutputDirectory();
+                Process.Start("explorer.exe", string.Concat('"', outputDirectory, '"'));
             }
         }
 
@@ -209,7 +273,7 @@ namespace UnveilerN
         private bool CheckOutput(out string errMsg)
         {
             string output = tbOutput.Text;
-
+            
             if (string.IsNullOrWhiteSpace(output))
             {
                 errMsg = null;
@@ -237,5 +301,6 @@ namespace UnveilerN
             errMsg = null;
             return true;
         }
+
     }
 }

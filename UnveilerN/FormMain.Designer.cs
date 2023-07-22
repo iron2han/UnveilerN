@@ -41,7 +41,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tbUnveilerPath = new System.Windows.Forms.TextBox();
             this.tbToken = new System.Windows.Forms.TextBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tpDecompile = new System.Windows.Forms.TabPage();
             this.tbOutputDirectory = new System.Windows.Forms.TextBox();
             this.rbFiles = new System.Windows.Forms.RadioButton();
             this.rbDirectory = new System.Windows.Forms.RadioButton();
@@ -70,7 +70,7 @@
             btnSelectOutputDirectory = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tpDecompile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.unveilerLogLevelBindingBindingSource)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -155,7 +155,7 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tpDecompile);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(8, 8);
@@ -197,31 +197,34 @@
             this.tbToken.Size = new System.Drawing.Size(474, 23);
             this.tbToken.TabIndex = 1;
             // 
-            // tabPage2
+            // tpDecompile
             // 
-            this.tabPage2.Controls.Add(btnSelectOutputDirectory);
-            this.tabPage2.Controls.Add(this.tbOutputDirectory);
-            this.tabPage2.Controls.Add(label6);
-            this.tabPage2.Controls.Add(this.rbFiles);
-            this.tabPage2.Controls.Add(this.rbDirectory);
-            this.tabPage2.Controls.Add(this.btnDecompile);
-            this.tabPage2.Controls.Add(this.cbLogLevel);
-            this.tabPage2.Controls.Add(label5);
-            this.tabPage2.Controls.Add(this.cbScanSensitive);
-            this.tabPage2.Controls.Add(this.tbDepth);
-            this.tabPage2.Controls.Add(label4);
-            this.tabPage2.Controls.Add(this.cbOverwriteDirectory);
-            this.tabPage2.Controls.Add(this.cbNoClearDecompile);
-            this.tabPage2.Controls.Add(this.cbFormatCode);
-            this.tabPage2.Controls.Add(this.tbAppId);
-            this.tabPage2.Controls.Add(label3);
-            this.tabPage2.Location = new System.Drawing.Point(4, 26);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(566, 235);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "解包";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tpDecompile.AllowDrop = true;
+            this.tpDecompile.Controls.Add(btnSelectOutputDirectory);
+            this.tpDecompile.Controls.Add(this.tbOutputDirectory);
+            this.tpDecompile.Controls.Add(label6);
+            this.tpDecompile.Controls.Add(this.rbFiles);
+            this.tpDecompile.Controls.Add(this.rbDirectory);
+            this.tpDecompile.Controls.Add(this.btnDecompile);
+            this.tpDecompile.Controls.Add(this.cbLogLevel);
+            this.tpDecompile.Controls.Add(label5);
+            this.tpDecompile.Controls.Add(this.cbScanSensitive);
+            this.tpDecompile.Controls.Add(this.tbDepth);
+            this.tpDecompile.Controls.Add(label4);
+            this.tpDecompile.Controls.Add(this.cbOverwriteDirectory);
+            this.tpDecompile.Controls.Add(this.cbNoClearDecompile);
+            this.tpDecompile.Controls.Add(this.cbFormatCode);
+            this.tpDecompile.Controls.Add(this.tbAppId);
+            this.tpDecompile.Controls.Add(label3);
+            this.tpDecompile.Location = new System.Drawing.Point(4, 26);
+            this.tpDecompile.Name = "tpDecompile";
+            this.tpDecompile.Padding = new System.Windows.Forms.Padding(3);
+            this.tpDecompile.Size = new System.Drawing.Size(566, 235);
+            this.tpDecompile.TabIndex = 1;
+            this.tpDecompile.Text = "解包";
+            this.tpDecompile.UseVisualStyleBackColor = true;
+            this.tpDecompile.DragDrop += new System.Windows.Forms.DragEventHandler(this.TpDecompile_DragDrop);
+            this.tpDecompile.DragEnter += new System.Windows.Forms.DragEventHandler(this.TpDecompile_DragEnter);
             // 
             // tbOutputDirectory
             // 
@@ -392,8 +395,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tpDecompile.ResumeLayout(false);
+            this.tpDecompile.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.unveilerLogLevelBindingBindingSource)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
@@ -406,7 +409,7 @@
 
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tpDecompile;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox tbToken;
         private System.Windows.Forms.TextBox tbUnveilerPath;
